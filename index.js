@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('./data/db.js')
 
 const server = express()
+server.use(express.json()); // teaches express how to read json
 
 server.get('/', (req, res) => {
 	res.send('Hellowwwww')
