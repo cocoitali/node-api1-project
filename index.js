@@ -14,12 +14,22 @@ server.get('/api/users', (req, res) => {
 			res.status(200).json(users)
 		})
 		.catch(err => {
-			res
-				.status(500)
-				.json({
-					errorMessage:
-						'There was an error while saving the user to the database'
-				})
+			res.status(500).json({
+				errorMessage: 'The users information could not be retrieved.'
+			})
+		})
+})
+
+server.post('/api/users', (req, res) => {
+	const userInfo = req.body
+	db.insert(userInfo)
+		.then(users => {
+			res.status(201).json(users)
+		})
+		.catch(err => {
+			res.status(500).json({
+				errorMessage: 'There was an error while saving the user to the database'
+			})
 		})
 })
 
