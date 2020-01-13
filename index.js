@@ -39,7 +39,13 @@ server.delete('/api/users/:id', (req, res) => {
 	const id = req.params.id
 	db.remove(id)
 		.then(user => {
-			res.status(200).json({ message: `User with id ${id} deleted` })
+			if (user) {
+				res.status(200).json({ message: `User with id ${id} deleted` })
+			} else {
+				res
+					.status(404)
+					.json({ message: 'The user with the specified ID does not exist' })
+			}
 		})
 		.catch(err => {
 			res.status(500).json({
