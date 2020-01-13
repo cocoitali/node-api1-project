@@ -2,7 +2,7 @@ const express = require('express')
 const db = require('./data/db.js')
 
 const server = express()
-server.use(express.json()); // teaches express how to read json
+server.use(express.json()) // teaches express how to read json
 
 server.get('/', (req, res) => {
 	res.send('Hellowwwww')
@@ -30,6 +30,20 @@ server.post('/api/users', (req, res) => {
 		.catch(err => {
 			res.status(500).json({
 				errorMessage: 'There was an error while saving the user to the database'
+			})
+		})
+})
+
+//dynamic
+server.delete('/api/users/:id', (req, res) => {
+	const id = req.params.id
+	db.remove(id)
+		.then(user => {
+			res.status(200).json({ message: `User with id ${id} deleted` })
+		})
+		.catch(err => {
+			res.status(500).json({
+				errorMessage: 'The user could not be removed'
 			})
 		})
 })
