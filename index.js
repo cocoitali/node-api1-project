@@ -1,8 +1,10 @@
 const express = require('express')
+const cors = require('cors');
 const db = require('./data/db.js')
 
 const server = express()
-server.use(express.json()) // teaches express how to read json
+server.use(express.json(), cors()) // teaches express how to read json
+// server.use(cors())
 
 server.get('/', (req, res) => {
 	res.send('Hellowwwww')
@@ -43,18 +45,22 @@ server.get('/api/users/:id', (req, res) => {
 
 //POST
 server.post('/api/users', (req, res) => {
-	const userInfo = req.body
-	if (user) {
-		db.insert(userInfo)
-			.then(users => {
-				res.status(201).json(users)
+    const user = req.body
+    const { id } = req.params
+	if (user.name && user.bio) {
+		db.insert(user, id)
+			.then(user => {
+				res.status(201).json(user)
 			})
 			.catch(() => {
 				res.status(500).json({
-					errorMessage:
-						'There was an error while saving the user to the database.'
+					error: 'There was an error while saving the user to the database'
 				})
 			})
+	} else {
+		res
+			.status(400)
+			.json({ errorMessage: 'Please provide name and bio for the user.' })
 	}
 })
 
