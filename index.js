@@ -14,9 +14,27 @@ server.get('/api/users', (req, res) => {
 		.then(users => {
 			res.status(200).json(users)
 		})
-		.catch(err => {
+		.catch(() => {
 			res.status(500).json({
 				errorMessage: 'The users information could not be retrieved.'
+			})
+		})
+})
+
+server.get('/api/users/:id', (req, res) => {
+	db.findById()
+		.then(user => {
+			if (user) {
+				res.status(200).json(users)
+			} else {
+				res
+					.status(404)
+					.json({ message: 'The user with the specified ID does not exist.' })
+			}
+		})
+		.catch(() => {
+			res.status(500).json({
+				errorMessage: 'The user information could not be retrieved.'
 			})
 		})
 })
@@ -27,9 +45,9 @@ server.post('/api/users', (req, res) => {
 		.then(users => {
 			res.status(201).json(users)
 		})
-		.catch(err => {
+		.catch(() => {
 			res.status(500).json({
-				errorMessage: 'There was an error while saving the user to the database'
+				errorMessage: 'There was an error while saving the user to the database.'
 			})
 		})
 })
@@ -40,16 +58,16 @@ server.delete('/api/users/:id', (req, res) => {
 	db.remove(id)
 		.then(user => {
 			if (user) {
-				res.status(200).json({ message: `User with id ${id} deleted` })
+				res.status(200).json({ message: `User with id ${id} deleted.` })
 			} else {
 				res
 					.status(404)
-					.json({ message: 'The user with the specified ID does not exist' })
+					.json({ message: 'The user with the specified ID does not exist.' })
 			}
 		})
-		.catch(err => {
+		.catch(() => {
 			res.status(500).json({
-				errorMessage: 'The user could not be removed'
+				errorMessage: 'The user could not be removed.'
 			})
 		})
 })
