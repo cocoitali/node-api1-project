@@ -21,11 +21,13 @@ server.get('/api/users', (req, res) => {
 		})
 })
 
+//GET/:id
 server.get('/api/users/:id', (req, res) => {
-	db.findById()
+    const { id } = req.params
+	db.findById(id)
 		.then(user => {
 			if (user) {
-				res.status(200).json(users)
+				res.status(200).json(user)
 			} else {
 				res
 					.status(404)
@@ -39,6 +41,7 @@ server.get('/api/users/:id', (req, res) => {
 		})
 })
 
+//POST
 server.post('/api/users', (req, res) => {
 	const userInfo = req.body
 	db.insert(userInfo)
@@ -52,7 +55,12 @@ server.post('/api/users', (req, res) => {
 		})
 })
 
-//dynamic
+//PUT
+// server.update('/api/users/:id', (req,res) => {
+
+// })
+
+//DELETE
 server.delete('/api/users/:id', (req, res) => {
 	const id = req.params.id
 	db.remove(id)
