@@ -114,7 +114,7 @@ server.delete('/api/users/:id', (req, res) => {
 	db.remove(id)
 		.then(user => {
 			if (user) {
-				res.status(200).json({ message: `User with id ${id} deleted.` })
+				res.status(204).json({ message: `User with id ${id} deleted.` })
 			} else {
 				res
 					.status(404)
