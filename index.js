@@ -1,5 +1,5 @@
 const express = require('express')
-const cors = require('cors');
+const cors = require('cors')
 const db = require('./data/db.js')
 
 const server = express()
@@ -45,8 +45,8 @@ server.get('/api/users/:id', (req, res) => {
 
 //POST
 server.post('/api/users', (req, res) => {
-    const user = req.body
-    const { id } = req.params
+	const user = req.body
+	const { id } = req.params
 	if (user.name && user.bio) {
 		db.insert(user, id)
 			.then(user => {
@@ -127,6 +127,12 @@ server.delete('/api/users/:id', (req, res) => {
 			})
 		})
 })
+
+//Custom middleware to handle 404s
+server.use(function(req, res) {
+	res.status(404).send(`Ain't nobody got time for dat!`)
+})
+
 
 const port = 8000
 server.listen(port, () => {
